@@ -1,15 +1,37 @@
-import module1.implicits.{implicit_conversions, implicit_scopes}
-import module1.threads.{Thread1, ToyFuture, getRatesLocation1, getRatesLocation2, getRatesLocation3, getRatesLocation4, printRunningTime}
-import module1.{executor, future, hof, lazyOps, list, try_, type_system}
+//import module1.implicits.{implicit_conversions, implicit_scopes}
+//import module1.threads.{Thread1, ToyFuture, getRatesLocation1, getRatesLocation2, getRatesLocation3, getRatesLocation4, printRunningTime}
+//import module1.{executor, future, hof, lazyOps, list, try_, type_system}
+import module1.homework.LinearAlgebraOps
 
 import scala.concurrent.Future
+import scala.runtime.Nothing$
 
 
 object Main {
 
-  def main(args: Array[String]): Unit = {
+    def main(args: Array[String]): Unit = {
     println("Hello, World!" +
       s" thread - ${Thread.currentThread().getName}" )
+
+    var sumArr = LinearAlgebraOps.sum(Array(20,20,20), Array(1,2,3));
+
+    for(el <- sumArr)
+    {
+      println(el)
+    }
+
+    var scaleArr = LinearAlgebraOps.scale(2, Array(1, 2, 3));
+
+    for (el <- scaleArr)
+    {
+      println(el)
+    }
+
+    var axpyArr = LinearAlgebraOps.axpy(2, Array(1, 2, 3), Array(10, 20, 30));
+
+    for (el <- axpyArr) {
+      println(el)
+    }
 
 //    val t1 = new Thread{
 //      override def run(): Unit ={
@@ -71,7 +93,7 @@ object Main {
 //
 //    Thread.sleep(4000)
 
-    implicit_scopes
+//    implicit_scopes
 
   }
 }
