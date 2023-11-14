@@ -183,42 +183,45 @@ object hof{
       case Some(v) => f(v)
       case None => None
     }
+
+    /**
+     *
+     * Реализовать метод printIfAny, который будет печатать значение, если оно есть
+     */
+    def printIfAny: Unit = this match {
+      case Some(v) => println(this.get)
+      case None => None
+    }
+
+    /**
+     *
+     * Реализовать метод zip, который будет создавать Option от пары значений из 2-х Option
+     */
+    def zip[B](b: Option[B]): Option[(T, B)] =
+      if(this.isEmpty || b.isEmpty) None else new Some[(T, B)](this.get, b.get)
+
+    /**
+     *
+     * Реализовать метод filter, который будет возвращать не пустой Option
+     * в случае если исходный не пуст и предикат от значения = true
+     */
+    def filter(p: T => Boolean): Option[T] = if (!this.isEmpty && p(this.get)) this else None
   }
   case class Some[T](v: T) extends Option[T]
   case object None extends Option[Nothing]
 
   object Option{
 
+
   }
 
-
-
-
-  // Animal -> Dog
-  // Covariant + отношения переносятся на контейнер
-  // Contravariant - отношения переносятся на контейнер наоборот
-  // Invariant - нет отношений
-
-
-  /**
-   *
-   * Реализовать метод printIfAny, который будет печатать значение, если оно есть
-   */
-
-
-  /**
-   *
-   * Реализовать метод zip, который будет создавать Option от пары значений из 2-х Option
-   */
-
-
-  /**
-   *
-   * Реализовать метод filter, который будет возвращать не пустой Option
-   * в случае если исходный не пуст и предикат от значения = true
-   */
-
  }
+
+// Animal -> Dog
+// Covariant + отношения переносятся на контейнер
+// Contravariant - отношения переносятся на контейнер наоборот
+// Invariant - нет отношений
+
 
   trait Animal
   case object Dog
@@ -241,10 +244,7 @@ object hof{
       * Метод cons, добавляет элемент в голову списка, для этого метода можно воспользоваться названием `::`
       *
       */
-
       def ::[TT >: T](el: TT): List[TT] = new ::(el, this)
-
-
 
 
 
@@ -258,6 +258,7 @@ object hof{
         case ::(head, tail) => s"$head$delimeter" + tail.mkString(delimeter)
         case Nil => ""
       }
+
      /**
       * Конструктор, позволяющий создать список из N - го числа аргументов
       * Для этого можно воспользоваться *
@@ -266,22 +267,28 @@ object hof{
       * def printArgs(args: Int*) = args.foreach(println(_))
       */
 
-     /**
-      *
-      * Реализовать метод reverse который позволит заменить порядок элементов в списке на противоположный
-      */
 
-     /**
-      *
-      * Реализовать метод map для списка который будет применять некую ф-цию к элементам данного списка
-      */
 
 
      /**
       *
       * Реализовать метод filter для списка который будет фильтровать список по некому условию
       */
+      def filter(p: T => Boolean): List[T] = {
+        def loop(acc: List[T], tail: List[T]):List[T] = {
+          tail match {
+            case ::(h, t) => if (p(h)) loop(::(h, acc), t) else loop(acc, t)
+            case Nil => acc
+          }
+        }
 
+        loop(Nil, this)
+      }
+
+      /**
+       *
+       * Реализовать метод reverse который позволит заменить порядок элементов в списке на противоположный
+       */
       def reverse: List[T] = foldLeft(List[T]()){case (acc, v) => v :: acc}
 
       def :::[TT >: T](that: List[TT]): List[TT] = {
@@ -296,14 +303,17 @@ object hof{
       }
 
 
-
-
-      def map[B](f: T => B): List[B] = ???
+      /**
+       *
+       * Реализовать метод map для списка который будет применять некую ф-цию к элементам данного списка
+       */
+      def map[B](f: T => B): List[B] = flatMap(v => f(v) :: Nil )
 
       def flatMap[B](f: T => List[B]): List[B] = this match {
         case ::(head, tail) => f(head) ::: tail.flatMap(f)
         case Nil => Nil
       }
+
 
       @tailrec
       final def foldLeft[B](acc: B)(op: (B, T) => B): B = this match {
@@ -369,12 +379,13 @@ object hof{
       * Написать функцию incList котрая будет принимать список Int и возвращать список,
       * где каждый элемент будет увеличен на 1
       */
-
+def incList(list: List[Int], inc: Int): List[Int] = list.map(v => v + inc)
 
     /**
       *
       * Написать функцию shoutString котрая будет принимать список String и возвращать список,
       * где к каждому элементу будет добавлен префикс в виде '!'
       */
+def shoutString(list: List[String], prefix: Char): List[String] = list.map(v => prefix + v)
 
  }
