@@ -16,7 +16,10 @@ object task_collections {
    *
    * **/
   def capitalizeIgnoringASCII(text: List[String]): List[String] = {
-    List.empty
+    text.zipWithIndex.collect({
+      case (v, 0) => v
+      case (v, _) => if(isASCIIString(v)) v.toUpperCase() else v.toLowerCase()
+    })
   }
 
   /**
@@ -29,7 +32,19 @@ object task_collections {
    * HINT: Для всех возможных комбинаций чисел стоит использовать Map
    * **/
   def numbersToNumericString(text: String): String = {
-    ""
+    text.map (c => c match {
+    case '0' => "zero"
+    case '1' => "one"
+    case '2' => "two"
+    case '3' => "three"
+    case '4' => "four"
+    case '5' => "five"
+    case '6' => "six"
+    case '7' => "seven"
+    case '8' => "eight"
+    case '9' => "nine"
+    case _ => c
+    }).mkString("")
   }
 
   /**
@@ -47,7 +62,8 @@ object task_collections {
    * Реализуйте метод который примет две коллекции (два источника) и вернёт объединенный список уникальный значений
    **/
   def intersectionAuto(dealerOne: Iterable[Auto], dealerTwo: Iterable[Auto]): Iterable[Auto] = {
-    Iterable.empty
+    //(dealerOne ++ dealerTwo).toSet
+    dealerOne.++(dealerTwo).toSet
   }
 
   /**
@@ -56,6 +72,12 @@ object task_collections {
    * и вернёт уникальный список машин обслуживающихся в первом дилерском центре и не обслуживающимся во втором
    **/
   def filterAllLeftDealerAutoWithoutRight(dealerOne: Iterable[Auto], dealerTwo: Iterable[Auto]): Iterable[Auto] = {
-    Iterable.empty
+    def isEqual(auto1: Auto, auto2: Auto): Boolean = {
+      auto1.mark == auto2.mark && auto1.model == auto2.model
+    }
+
+    //dealerOne.toSet -- dealerTwo
+
+    dealerOne.filter(a1 => !dealerTwo.exists(a2 => isEqual(a1, a2)))
   }
 }
