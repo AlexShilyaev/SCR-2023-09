@@ -8,6 +8,8 @@ import module1.{executor, future, hof, lazyOps, list, try_, type_system, validat
 import module2.{toyCatsEffect, toyModel, typeClasses, zioConcurrency, zioConstructors}
 import module2.functional_effects.functionalProgram.{declarativeEncoding, executableEncoding}
 import zio.ZIO
+import module1.homework.collections.task_collections
+import module1.homework.collections.task_collections.Auto
 
 import scala.concurrent.Future
 import scala.io.StdIn
@@ -17,8 +19,19 @@ import scala.util.Try
 object Main {
 
   def main(args: Array[String]): Unit = {
-    println("Hello, World!" +
-      s" thread - ${Thread.currentThread().getName}" )
+    println("Hello, World! Home work 4!")
+
+    task_collections.capitalizeIgnoringASCII(List("Lorem", "ipsum" ,"dolor", "sit", "amet")).map(x => print(x + " "))
+    println("")
+    task_collections.capitalizeIgnoringASCII(List("Оказывается", ",", "ЗвУк", "КЛАВИШЬ", "печатной", "Машинки", "не", "СТАЛ", "ограничивающим", "фактором")).map(x => print(x + " "))
+    println("")
+    print(task_collections.numbersToNumericString("123 dsfsdfds 330"))
+    println("")
+    println("intersectionAuto")
+    task_collections.intersectionAuto(Iterable(Auto("Lada", "Granta"), Auto("Lada", "Niva"), Auto("Lada", "Vesta")), Iterable(Auto("Haval", "Jolion"), Auto("Lada", "Vesta"))).map(a => println(a.mark + " " + a.model))
+    println("")
+    println("filterAllLeftDealerAutoWithoutRight")
+    task_collections.filterAllLeftDealerAutoWithoutRight(Iterable(Auto("Lada", "Granta"), Auto("Lada", "Niva"), Auto("Lada", "Vesta")), Iterable(Auto("Haval", "Jolion"), Auto("Lada", "Vesta"))).map(a => println(a.mark + " " + a.model))
 
 //    val t1 = new Thread{
 //      override def run(): Unit ={
@@ -92,7 +105,7 @@ object Main {
 
 
 
-    zio.Runtime.default.unsafeRun(zioConcurrency.g1)
+//    zio.Runtime.default.unsafeRun(zioConcurrency.g1)
 
   }
 }
