@@ -8,6 +8,8 @@ import module1.{executor, future, hof, lazyOps, list, try_, type_system, validat
 import module2.{toyCatsEffect, toyModel, typeClasses, zioConcurrency, zioConstructors}
 import module2.functional_effects.functionalProgram.{declarativeEncoding, executableEncoding}
 import zio.ZIO
+import module1.homework.{ Basket }
+import scala.util.Random
 
 import scala.concurrent.Future
 import scala.io.StdIn
@@ -17,8 +19,16 @@ import scala.util.Try
 object Main {
 
   def main(args: Array[String]): Unit = {
-    println("Hello, World!" +
-      s" thread - ${Thread.currentThread().getName}" )
+    println("Hello, World!" )
+
+    val countExperiments = 100000;
+    val baskets = List.fill(countExperiments)(new Basket(Random.shuffle(
+      List.fill(3)(1) ++ List.fill(3)(0)
+    )))
+
+    val countWhite = baskets.map(e => e.select()).count(_ == true)
+    val probability = countWhite.toDouble/countExperiments;
+    println("probability: " + probability)
 
 //    val t1 = new Thread{
 //      override def run(): Unit ={
@@ -92,7 +102,7 @@ object Main {
 
 
 
-    zio.Runtime.default.unsafeRun(zioConcurrency.g1)
+  //  zio.Runtime.default.unsafeRun(zioConcurrency.g1)
 
   }
 }
