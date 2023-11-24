@@ -1,5 +1,6 @@
 package module1.homework.futures
 
+import izumi.reflect.macrortti.LightTypeTagRef.FullReference
 import module1.homework.futures.HomeworksUtils.TaskSyntax
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -20,6 +21,12 @@ object task_futures_sequence {
    * @return асинхронную задачу с кортежом из двух списков
    */
   def fullSequence[A](futures: List[Future[A]])
-                     (implicit ex: ExecutionContext): Future[(List[A], List[Throwable])] =
-    task"Реализуйте метод `fullSequence`" ()
+                     (implicit ex: ExecutionContext): Future[(List[A], List[Throwable])] = {
+
+    futures.foldRight(Future.successful(List[A](), List[Throwable]())) {
+      (item, accum) =>
+        accum.flatMap(a => item.map(i => (i :: a._1, a._2))
+          .recover { case ex => (a._1, ex :: a._2) })
+    }
+  }
 }
