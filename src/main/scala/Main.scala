@@ -13,7 +13,6 @@ import scala.concurrent.Future
 import scala.io.StdIn
 import scala.util.Try
 
-
 object Main {
 
   def main(args: Array[String]): Unit = {
@@ -92,7 +91,6 @@ object Main {
 
 
 
-    zio.Runtime.default.unsafeRun(zioConcurrency.g1)
 
   }
 }
