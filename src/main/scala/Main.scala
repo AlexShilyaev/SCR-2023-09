@@ -12,6 +12,7 @@ import zio.ZIO
 import scala.concurrent.Future
 import scala.io.StdIn
 import scala.util.Try
+import module2.homework.zio_homework.{printEffectRunningTimeSpeed, doWhile, guessProgram, printEffectRunningTime}
 
 
 object Main {
@@ -91,8 +92,10 @@ object Main {
 //    declarativeEncoding.interpret(p4)
 
 
-
-    zio.Runtime.default.unsafeRun(zioConcurrency.g1)
+    //zio.Runtime.default.unsafeRun(guessProgram);
+    //zio.Runtime.default.unsafeRun(doWhile(guessProgram)(e => e));
+    //zio.Runtime.default.unsafeRun(printEffectRunningTime)
+    zio.Runtime.default.unsafeRun(printEffectRunningTimeSpeed)
 
   }
 }
